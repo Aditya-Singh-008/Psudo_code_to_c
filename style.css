@@ -1,93 +1,139 @@
+/* --- BASE SETUP & ADVANCED MESH BACKGROUND --- */
 body {
-    background-color: rgba(11, 11, 11, 0.922);
+    background-color: #080808;
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(225,59%,30%,1) 0, transparent 60%), 
+        radial-gradient(at 100% 0%, rgb(39, 114, 55) 0, transparent 40%);
     display: flex;
-    flex-direction: column; /* Keeps header on top */
+    flex-direction: column; 
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden; /* Prevents double scrollbars */
+    overflow: hidden; 
+    color: #e0e0e0;
 }
-#top-label{
+
+/* --- HEADER --- */
+#top-label {
     display: flex;
     height: 10vh;
+    z-index: 10;
 }
-#head{
+
+#head {
     position: relative;
     margin: auto;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: rgba(192, 154, 89, 0.812);
-    text-decoration: double;
+    font-family: "Monoton", Arial, sans-serif;
+    color: #00ff88; /* Advanced Neon Cyan-Green */
     font-weight: 1000;
     font-size: xx-large;
     transition: all 0.4s ease;
-    text-shadow: 0px 3px 10px rgb(18, 19, 19),0px 3px 10px rgb(63, 62, 62),0px 3px 1px rgb(61, 58, 58);
+    text-shadow: 0px 0px 15px rgba(0, 255, 136, 0.4);
+    letter-spacing: 2px;
 }
 
-/* Wrapper for Sidebar + Content */
+/* --- MAIN WRAPPER WITH ANIMATED FLOW --- */
 .main-wrapper {
     display: flex;
-    flex: 1; /* Takes up remaining height below header */
+    flex: 1; 
     width: 100%;
-    background-color: rgb(92, 124, 114);
+    /* Darker, more professional flow */
+    background: linear-gradient(-45deg, #050505, #0a1f12, #0d1a0a, #1a0b21);
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
 }
 
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- INSTRUCTIONS SIDEBAR (GLASSMORPHISM) --- */
 #left-element {
     width: 25vw;
-    height: 80%; /* Fill the wrapper height */
-    background-color: rgba(49, 68, 84, 0.676);
-    position: relative; /* Changed from fixed to stay in flex flow */
+    height: 90%; 
+    /* Frosted Glass Effect */
+    background: rgba(255, 255, 255, 0.03);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    
+    position: relative; 
     padding: 30px;
     margin: 30px;
-    border-radius: 10px;
+    border-radius: 15px;
     box-sizing: border-box;
-    color: white;
+    color: #94a3b8;
     font-family: 'Segoe UI', sans-serif;
-    border-right: 1px solid rgba(255,255,255,0.1);
-    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
+#left-element h3 {
+    color: #00ff88;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+    padding-bottom: 10px;
+}
+
+#left-element p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-family: 'Consolas', monospace;
+}
+
+/* --- CENTER AREA & TEXTAREAS --- */
 #center {
-    flex: 1; /* Takes remaining 75vw */
-    background-color: rgb(0, 0, 0);
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the textarea and buttons */
+    align-items: center; 
     padding: 20px;
     gap: 30px;
 }
-#print{
+
+#print {
     flex: 1;
     display: flex;
-    /* justify-content: flex-start; */
     align-items: center;
     gap: 30px;
     width: 100%;
 }
-#output {
-    width: 50%; /* Responsive relative to #center */
+
+#container, #output {
+    width: 50%; 
     height: 60vh;
-    background-color: rgb(46, 55, 52);
-    border: 1px solid green;
-    padding: 20px;
-    color: beige;
-    font-family: 'Consolas', 'Courier New', monospace; /* Better for code */
-    font-size: 1.2rem;
+    /* Dark Deep-Sea Glass */
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    
+    padding: 25px;
+    color: #00ff88; 
+    font-family: 'Consolas', 'Courier New', monospace; 
+    font-size: 1.1rem;
     resize: none;
-    border-radius: 8px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-#container {
-    width: 50%; /* Responsive relative to #center */
-    height: 60vh;
-    background-color: rgb(46, 55, 52);
-    border: 1px solid green;
-    padding: 20px;
-    color: beige;
-    font-family: 'Consolas', 'Courier New', monospace; /* Better for code */
-    font-size: 1.2rem;
-    resize: none;
-    border-radius: 8px;
+#container:focus {
+    border-color: #00ff88;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 0, 0, 0.3);
+    outline: none;
+    background: rgba(0, 0, 0, 0.55);
 }
+#output:focus {
+    border-color: #00ff88;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 0, 0, 0.3);
+    outline: none;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+/* --- THE NEON ARROW --- */
 .arrow-container {
     display: flex;
     align-items: center;
@@ -95,39 +141,50 @@ body {
 }
 
 .arrow {
-    width: 40px;
-    height: 10px;
-    background-color: rgba(36, 179, 0); /* Matches your #head color */
+    width: 45px;
+    height: 4px;
+    background-color: #00ff88; 
     position: relative;
-    transition: all 1s ease-in-out;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+    animation: arrowani 2s ease-in-out infinite;
+}
+@keyframes arrowani {
+    0% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(10px); opacity: 1; }
+    100% { transform: translateX(0); opacity: 0.5; }
 }
 
-/* The Triangle Head */
 .arrow::after {
     content: '';
     position: absolute;
-    right: -15px;
-    top: -10px;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    border-left: 20px solid rgba(36, 179, 0, 1);
+    right: -12px;
+    top: -8px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid #00ff88;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.4));
 }
-.arrow:hover{
+
+.arrow:hover {
     transform: rotate(-180deg);
 }
+
+/* --- BUTTONS --- */
 #select {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 40px; /* Specific spacing between buttons */
+    gap: 40px; 
 }
+
 .button {
-    width: 120px;
-    height: 45px;
-    background-color: antiquewhite;
-    color: #1a1a1a;
+    width: 140px;
+    height: 50px;
+    /* Dark Chrome Gradient */
+    background: linear-gradient(145deg, #1e1e1e, #0a0a0a);
+    color: #ffffff;
     
-    /* Perfect Centering */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,32 +192,40 @@ body {
     font-family: 'Segoe UI', sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
     
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .button:hover {
-    transform: translateY(-3px); /* Subtle lift instead of massive scale */
-    background-color: #f5ead8;
-    box-shadow: 0px 10px 20px rgba(133, 46, 46, 0.3);
+    transform: translateY(-5px); 
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Added "Active" state for the click feel */
 .button:active {
-    transform: translateY(1px);
-    box-shadow: 0px 2px 5px rgba(133, 46, 46, 0.2);
+    transform: translateY(2px);
 }
 
-/* Specific styling for the RUN vs RESET if you want variety */
-.button[onclick="prt()"] {
-    border-left: 5px solid #2e7d32; /* Green hint for RUN */
+/* Logic Color Hints */
+.button[onclick="prt(event)"] {
+    border-bottom: 3px solid #00ff88; /* Green for RUN */
 }
 
-.button[onclick="reset()"]{
-    border-left: 5px solid #c62828; /* Red hint for RESET */
+.button[onclick="prt(event)"]:hover {
+    color: #00ff88;
+    box-shadow: 0px 10px 25px rgba(0, 255, 136, 0.2);
 }
 
+.button[onclick="reset()"] {
+    border-bottom: 3px solid #ff4444; /* Red for RESET */
+}
+
+.button[onclick="reset()"]:hover {
+    color: #ff4444;
+    box-shadow: 0px 10px 25px rgba(255, 68, 68, 0.2);
+}

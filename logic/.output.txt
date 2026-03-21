@@ -2,11 +2,3 @@
 
 int main() {
     int x;
-    int y;
-    printf(%s\n, "Enter a number:");
-    scanf("%d", &x);
-    y = x * 2 + 10;
-    printf(%s\n, "The result is:");
-    printf("%d\n", y);
-    return 0;
-}

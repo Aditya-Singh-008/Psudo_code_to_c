@@ -1,9 +1,0 @@
-START
-    VAR x AS INT
-    VAR y AS INT
-    SHOW "Enter a number:"
-    GET x
-    SET y TO x * 2 + 10
-    SHOW "The result is:"
-    SHOW y
-STOP
