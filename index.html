@@ -5,21 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pusdo_code_to_C</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="favicon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="image.png" type="image/x-icon">
 </head>
 <body>
-        <div id="top-label">
-            <div id="image"></div>
-            <div id="head" class="text">Pusdo Code To C</div>
+    <div id="top-label">
+        <div id="head">Pusdo Code To C</div>
+    </div>
+    
+    <div class="main-wrapper"> <!-- Add this wrapper -->
+        <div id="left-element">
+            <h3>Instructions</h3>
+            <p>1. START / STOP -->	main() { ... }</p>
+            <p>2. VAR x AS INT -->  int x;</p>
+            <p>3. SET x TO 5 --> x = 5;</p>
+            <p>4. SHOW "Hi" --> printf("Hi");</p>
+            <p>5. GET x --> scanf("%d",&x);</p>
+            <p>6. IF  ELSE / ENDIF -->  if / else </p>
+            <p>7. WHILE / DONE --> while(cond){...}</p>
         </div>
-        <div id="left-element">HERE ARE THE INSTRUCTIONS FOR THE PESUDO LANGUAGE</div>
+        
         <div id="center">
-            <textarea id="container" placeholder="enter your text here"></textarea>
+            <div id="print">
+                <textarea id="container" placeholder="Enter pseudocode here..."></textarea>
+                <div class="arrow-container">
+        <div class="arrow"></div>
+    </div>
+                <textarea name="" id="output" placeholder="Output here"></textarea>
+            </div>
             <div id="select">
-                <div class="button" onclick="prt()">RUN</div>
-                <div class="button">RESET</div>
+                <button class="button" onclick="prt(event)" type="button">RUN</button>
+                <button class="button" onclick="reset()" type="reset">RESET</button>
             </div>
         </div>
-        <script src="script.js"></script>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
