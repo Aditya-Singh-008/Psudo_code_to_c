@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pusdo_code_to_C</title>
+    <title>Pseudo_code_to_C</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="image.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double+Ink:wght@100..900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
 </head>
 <body>
     <div id="top-label">
-        <div id="head">Pusdo Code To C</div>
+        <div id="head">Pseudo Code  To C
+        </div>
     </div>
-    
-    <div class="main-wrapper"> <!-- Add this wrapper -->
+    <div id="alert_outer">
+    <div id="alert">
+        Invalid Input
+        <span class="material-symbols-outlined" onclick="closealert()">X
+        </span>
+    </div>
+    </div>
+    <div class="main-wrapper">
         <div id="left-element">
             <h3>Instructions</h3>
             <p>1. START / STOP -->	main() { ... }</p>
@@ -24,7 +32,6 @@
             <p>4. SHOW "Hi" --> printf("Hi");</p>
             <p>5. GET x --> scanf("%d",&x);</p>
             <p>6. IF  ELSE / ENDIF -->  if / else </p>
-            <p>7. WHILE / DONE --> while(cond){...}</p>
         </div>
         
         <div id="center">

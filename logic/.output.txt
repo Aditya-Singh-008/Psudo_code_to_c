@@ -1,4 +1,8 @@
 #include <stdio.h>
 
 int main() {
-    int x;
+    int X;
+    X = 2345;
+    printf(%s\n, "ADGHHF");
+    return 0;
+}

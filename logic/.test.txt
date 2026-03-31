@@ -1,5 +1,29 @@
 START
-    VAR x AS INT
-    SHOW y
-    show z
+  VAR x AS INT
+  VAR y AS INT
+  
+  SHOW "Enter first number:"
+  GET x
+  
+  SHOW "Enter second number:"
+  GET y
+  
+  IF x < y
+    SHOW "The second number is larger"
+  ELSE
+    IF x == y
+      SHOW "Both numbers are equal"
+    ELSE
+      SHOW "The first number is larger"
+    ENDIF
+  ENDIF
+  
+  VAR counter AS INT
+  SET counter TO 0
+  
+  SHOW "Counting up to the first number:"
+  WHILE counter < x
+    SHOW counter
+    SET counter TO counter + 1
+  DONE
 STOP

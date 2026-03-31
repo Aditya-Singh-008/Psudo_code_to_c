@@ -2,25 +2,36 @@
 CC = gcc
 LEX = flex
 YACC = bison
-CFLAGS = -Wall
+CFLAGS = -Wall -g
+
+SRCS = ast.c symtab.c codegen.c main.c
+OBJS = $(SRCS:.c=.o) lex.yy.o parser.tab.o
 
 # The default rule that runs when you just type 'make'
 all: my_compiler
 
 # 1. Link the generated C files into the final executable
-my_compiler: lex.yy.c parser.tab.c
-	$(CC) $(CFLAGS) lex.yy.c parser.tab.c -o my_compiler
+my_compiler: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o my_compiler
 
 # 2. Generate the Parser from parser.y
-# The -d flag creates the .h file needed by Flex
 parser.tab.c parser.tab.h: parser.y
 	$(YACC) -d parser.y
 
 # 3. Generate the Lexer from lexer.l
-# It depends on parser.tab.h because it needs the token definitions
 lex.yy.c: lexer.l parser.tab.h
 	$(LEX) lexer.l
 
-# 4. Clean up generated files to start fresh
+# 4. Compile C source files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+lex.yy.o: lex.yy.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+parser.tab.o: parser.tab.c
+	$(CC) $(CFLAGS) -Wno-implicit-function-declaration -c $< -o $@
+
+# 5. Clean up generated files to start fresh
 clean:
-	rm -f lex.yy.c parser.tab.c parser.tab.h my_compiler output.c
+	rm -f lex.yy.c parser.tab.c parser.tab.h my_compiler output.c *.o

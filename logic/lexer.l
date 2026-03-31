@@ -15,6 +15,18 @@
 "TO"            { return TO; }
 "SHOW"          { return SHOW; }
 "GET"           { return GET; }
+"IF"            { return IF; }
+"ELSE"          { return ELSE; }
+"ENDIF"         { return ENDIF; }
+"WHILE"         { return WHILE; }
+"DONE"          { return DONE; }
+
+"=="            { return EQ; }
+"!="            { return NEQ; }
+"<="            { return LE; }
+">="            { return GE; }
+"<"             { return LT; }
+">"             { return GT; }
 
 [0-9]+          { yylval.num = atoi(yytext); return NUMBER; }
 [a-zA-Z]+       { yylval.id = strdup(yytext); return IDENTIFIER; }

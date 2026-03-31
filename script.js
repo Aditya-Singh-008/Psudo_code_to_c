@@ -19,7 +19,10 @@ async function prt(e){
       console.log("RAW RESPONSE:", text);
       
       const result = JSON.parse(text); // 👈 force parse
-      
+      const value=result.output;
+      if(value===""){
+        showalert();
+      }
       document.getElementById("output").value = result.output;
       
     } catch(err){
@@ -28,6 +31,22 @@ async function prt(e){
       lock=false
       showloading(false)
     }
+}
+function showalert(){
+  let x = document.getElementById("alert");
+  let y = document.getElementById("alert_outer");
+  x.style.display="flex";
+  y.style.display="flex";
+  document.getElementsByTagName("body").style.opacity=0.5;
+  document.getElementById("*").style.filter=brightness(0.5);
+}
+function closealert(){
+  let x = document.getElementById("alert");
+  let y = document.getElementById("alert_outer");
+  x.style.display="none";
+  y.style.display="none";
+  document.getElementsByTagName("body").style.opacity=1;
+  document.getElementById("*").style.filter="blur(0)brightness(1)";
 }
 function showloading(val){
   let btn=document.getElementById("load")

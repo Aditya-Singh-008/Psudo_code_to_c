@@ -2,47 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ast.h"
+#include "symtab.h"
 
 void yyerror(const char *s);
 int yylex();
 
-/* Symbol Table */
-struct Symbol { char *name; char *type; };
-struct Symbol symbol_table[100];
-int symbol_count = 0;
+extern ASTNode* ast_root; // Defined in main.c
 
-void add_symbol(char *name, char *type) {
-    symbol_table[symbol_count].name = strdup(name);
-    symbol_table[symbol_count].type = strdup(type);
-    symbol_count++;
-}
-
-char* get_type(char *name) {
-    for (int i = 0; i < symbol_count; i++) {
-        if (strcmp(symbol_table[i].name, name) == 0) return symbol_table[i].type;
-    }
-    return NULL;
-}
-
-/* Helper to combine strings for expressions */
-char* combine(char* left, char* op, char* right) {
-    char* buf = malloc(512);
-    sprintf(buf, "%s %s %s", left, op, right);
-    return buf;
-}
 %}
 
 %union {
     int num;
     char *id;
-    char *code; /* New: For passing code strings up the tree */
+    struct ASTNode* node;
 }
 
 %token START STOP VAR AS INT SET TO SHOW GET
+%token IF ELSE ENDIF WHILE DONE
 %token PLUS MINUS MULT DIV
+%token EQ NEQ LT GT LE GE
 %token <num> NUMBER
 %token <id> IDENTIFIER STRING
-%type <code> expression  /* Tells Bison 'expression' returns a string */
+
+%type <node> program statements statement declaration assignment print_stmt input_stmt if_stmt while_stmt expression condition
 
 %left PLUS MINUS
 %left MULT DIV
@@ -50,76 +33,90 @@ char* combine(char* left, char* op, char* right) {
 %%
 
 program:
-    START { printf("#include <stdio.h>\n\nint main() {\n"); } 
-    statements 
-    STOP { printf("    return 0;\n}\n"); }
+    START statements STOP { 
+        ast_root = create_program_node($2); 
+    }
     ;
 
 statements:
-    statements statement | /* empty */
+    statements statement { $$ = append_stmt($1, $2); }
+    | /* empty */ { $$ = NULL; }
     ;
 
 statement:
-    declaration | assignment | print_stmt | input_stmt
+    declaration { $$ = $1; }
+    | assignment { $$ = $1; }
+    | print_stmt { $$ = $1; }
+    | input_stmt { $$ = $1; }
+    | if_stmt { $$ = $1; }
+    | while_stmt { $$ = $1; }
     ;
 
 declaration:
     VAR IDENTIFIER AS INT { 
         add_symbol($2, "int");
-        printf("    int %s;\n", $2); 
+        $$ = create_var_decl_node($2); 
     }
     ;
 
-/* Clean rule: No actions in the middle. Prints at the end. */
 assignment:
     SET IDENTIFIER TO expression { 
-        printf("    %s = %s;\n", $2, $4); 
+        $$ = create_assign_node($2, $4); 
+    }
+    ;
+
+if_stmt:
+    IF condition statements ELSE statements ENDIF {
+        $$ = create_if_node($2, create_block_node($3), create_block_node($5));
+    }
+    | IF condition statements ENDIF {
+        $$ = create_if_node($2, create_block_node($3), NULL);
+    }
+    ;
+
+while_stmt:
+    WHILE condition statements DONE {
+        $$ = create_while_node($2, create_block_node($3));
     }
     ;
 
 expression:
     NUMBER { 
-        char* buf = malloc(32);
-        sprintf(buf, "%d", $1);
-        $$ = buf; 
+        $$ = create_num_node($1); 
     }
     | IDENTIFIER { 
-        $$ = strdup($1); 
+        $$ = create_id_node($1); 
     }
-    | expression PLUS expression  { $$ = combine($1, "+", $3); }
-    | expression MINUS expression { $$ = combine($1, "-", $3); }
-    | expression MULT expression  { $$ = combine($1, "*", $3); }
-    | expression DIV expression   { $$ = combine($1, "/", $3); }
+    | expression PLUS expression  { $$ = create_binop_node("+", $1, $3); }
+    | expression MINUS expression { $$ = create_binop_node("-", $1, $3); }
+    | expression MULT expression  { $$ = create_binop_node("*", $1, $3); }
+    | expression DIV expression   { $$ = create_binop_node("/", $1, $3); }
     | '(' expression ')' {
-        char* buf = malloc(512);
-        sprintf(buf, "(%s)", $2);
-        $$ = buf;
+        $$ = $2;
     }
     ;
 
+condition:
+    expression EQ expression  { $$ = create_binop_node("==", $1, $3); }
+    | expression NEQ expression { $$ = create_binop_node("!=", $1, $3); }
+    | expression LT expression  { $$ = create_binop_node("<", $1, $3); }
+    | expression GT expression  { $$ = create_binop_node(">", $1, $3); }
+    | expression LE expression  { $$ = create_binop_node("<=", $1, $3); }
+    | expression GE expression  { $$ = create_binop_node(">=", $1, $3); }
+    ;
+
 print_stmt:
-    SHOW STRING { printf("    printf(%%s\\n, %s);\n", $2); }
-    | SHOW IDENTIFIER {
-        char *type = get_type($2);
-        if (type && strcmp(type, "int") == 0) 
-            printf("    printf(\"%%d\\n\", %s);\n", $2);
-    }
+    SHOW STRING { $$ = create_print_node(create_str_node($2)); }
+    | SHOW expression { $$ = create_print_node($2); }
     ;
 
 input_stmt:
     GET IDENTIFIER {
-        char *type = get_type($2);
-        if (type && strcmp(type, "int") == 0) 
-            printf("    scanf(\"%%d\", &%s);\n", $2);
+        $$ = create_input_node($2);
     }
     ;
 
 %%
-
-int main() {
-    yyparse();
-    return 0;
-}
 
 void yyerror(const char *s) {
     fprintf(stderr, "Translation Error: %s\n", s);
