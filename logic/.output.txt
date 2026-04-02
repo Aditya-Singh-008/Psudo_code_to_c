@@ -1,8 +1,13 @@
 #include <stdio.h>
 
 int main() {
-    int X;
-    X = 2345;
-    printf(%s\n, "ADGHHF");
+        int x;
+        x = 1;
+        while ((x <= 3)) {
+            if ((x == 2)) {
+                printf("%s\n", "Target Reached");
+            }
+            x = (x + 1);
+        }
     return 0;
 }

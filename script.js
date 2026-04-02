@@ -20,7 +20,7 @@ async function prt(e){
       
       const result = JSON.parse(text); // 👈 force parse
       const value=result.output;
-      if(value===""){
+      if(value=="undefined"){
         showalert();
       }
       document.getElementById("output").value = result.output;

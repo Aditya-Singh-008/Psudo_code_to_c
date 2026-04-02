@@ -5,4 +5,3 @@ SET x TO 5,x = 5;,Assignment
 "SHOW ""Hi""","printf(""Hi"");",Output
 GET x,"scanf(""%d"", &x);",Input
 IF / ELSE / ENDIF,if / else,Conditionals
-WHILE / DONE,while(cond) { },Looping
