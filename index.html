@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,37 +10,47 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close" />
 </head>
+
 <body>
     <div id="top-label">
-        <div id="head">Pseudo Code  To C
+        <div id="head">Pseudo Code To C
         </div>
     </div>
     <div id="alert_outer">
-    <div id="alert">
-        Invalid Input
-        <span class="material-symbols-outlined" onclick="closealert()">X
-        </span>
-    </div>
+        <div id="alert">
+            Invalid Input
+            <span class="material-symbols-outlined" onclick="closealert()">X
+            </span>
+        </div>
     </div>
     <div class="main-wrapper">
         <div id="left-element">
             <h3>Instructions</h3>
-            <p>1. START / STOP -->	main() { ... }</p>
-            <p>2. VAR x AS INT -->  int x;</p>
+            <p>1. START / STOP --> main() { ... }</p>
+            <p>2. VAR x AS INT --> int x;</p>
             <p>3. SET x TO 5 --> x = 5;</p>
             <p>4. SHOW "Hi" --> printf("Hi");</p>
             <p>5. GET x --> scanf("%d",&x);</p>
-            <p>6. IF  ELSE / ENDIF -->  if / else </p>
+            <p>6. IF ELSE / ENDIF --> if / else </p>
         </div>
-        
+
         <div id="center">
             <div id="print">
                 <textarea id="container" placeholder="Enter pseudocode here..."></textarea>
-                <div class="arrow-container">
-        <div class="arrow"></div>
-    </div>
+                <div id="option">
+                    <label>Select Language</label>
+                    <select name="option" id="value">
+                        <option value="C">C</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                    </select>
+                    <div class="arrow-container">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
                 <textarea name="" id="output" placeholder="Output here"></textarea>
             </div>
             <div id="warnings-panel">
@@ -58,4 +69,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

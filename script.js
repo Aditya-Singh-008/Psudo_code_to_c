@@ -10,10 +10,15 @@ async function prt(e) {
     closeWarnings();  // clear any previous diagnostics
 
     const x = document.getElementById("container").value;
+    const lang = document.getElementById("value").value;
+    if (x === "" || lang === "") {
+      showalert();
+      return;
+    }
     const res = await fetch("http://localhost:8000/run", {
       method: "POST",
       headers: { 'Content-Type': 'text/plain' },
-      body: x
+      body: JSON.stringify({ code: x, lang: lang })
     });
 
     const text = await res.text();
@@ -42,9 +47,9 @@ async function prt(e) {
 
 /* ---- Warnings panel ---- */
 function showWarnings(text) {
-  const panel  = document.getElementById("warnings-panel");
-  const body   = document.getElementById("warnings-body");
-  const icon   = document.getElementById("warnings-icon");
+  const panel = document.getElementById("warnings-panel");
+  const body = document.getElementById("warnings-body");
+  const icon = document.getElementById("warnings-icon");
 
   body.textContent = text;
   panel.style.display = "block";

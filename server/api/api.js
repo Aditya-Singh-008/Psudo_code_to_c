@@ -15,10 +15,20 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
     try {
-        const data = req.body;
+        let code = req.body;
+        let lang = 'c';
+        try {
+            const parsed = JSON.parse(req.body);
+            if (parsed.code !== undefined) {
+                code = parsed.code;
+                lang = (parsed.lang && parsed.lang.trim() !== '') ? parsed.lang.toLowerCase() : 'c';
+            }
+        } catch (e) {
+            // Fallback: it was sent as pure text instead of JSON
+        }
 
         // 1. Overwrite the shared input file with the latest pseudocode
-        await writeFile(INPUT_FILE, data);
+        await writeFile(INPUT_FILE, code);
 
         // 2. Convert Windows absolute path → WSL /mnt/... path
         const toWsl = (p) =>
@@ -31,7 +41,7 @@ router.post("/", async (req, res) => {
         // 3. Run compiler via WSL (execFile — no Node-side shell)
         execFile(
             'wsl',
-            ['bash', '-c', `cd '${wslDir}' && ./my_compiler < '${wslInput}' > '${wslOutput}'`],
+            ['bash', '-c', `cd '${wslDir}' && ./my_compiler '${lang}' < '${wslInput}' > '${wslOutput}'`],
             async (error, _stdout, stderr) => {
                 if (error) {
                     console.error("Compile Error:", stderr);

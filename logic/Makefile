@@ -4,7 +4,7 @@ LEX = flex
 YACC = bison
 CFLAGS = -Wall -g
 
-SRCS = ast.c symtab.c codegen.c main.c
+SRCS = ast.c symtab.c codegen_c.c codegen_python.c codegen_java.c main.c
 OBJS = $(SRCS:.c=.o) lex.yy.o parser.tab.o
 
 # The default rule that runs when you just type 'make'

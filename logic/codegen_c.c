@@ -37,14 +37,14 @@ void generate_expr(ASTNode* expr) {
     }
 }
 
-void generate_code(ASTNode* node, int indent_level) {
+void generate_code_c(ASTNode* node, int indent_level) {
     if (node == NULL) return;
 
     if (node->type == NODE_PROGRAM) {
         printf("#include <stdio.h>\n\nint main() {\n");
         ASTNode* stmt = node->left;
         while (stmt != NULL) {
-            generate_code(stmt, indent_level + 1);
+            generate_code_c(stmt, indent_level + 1);
             stmt = stmt->next;
         }
         printf("    return 0;\n}\n");
@@ -52,7 +52,7 @@ void generate_code(ASTNode* node, int indent_level) {
     else if (node->type == NODE_BLOCK) {
         ASTNode* stmt = node->left;
         while (stmt != NULL) {
-            generate_code(stmt, indent_level);
+            generate_code_c(stmt, indent_level);
             stmt = stmt->next;
         }
     }
@@ -129,7 +129,7 @@ void generate_code(ASTNode* node, int indent_level) {
 
         ASTNode* stmt = node->then_branch;
         while (stmt) {
-            generate_code(stmt, indent_level + 1);
+            generate_code_c(stmt, indent_level + 1);
             stmt = stmt->next;
         }
 
@@ -141,7 +141,7 @@ void generate_code(ASTNode* node, int indent_level) {
 
             stmt = node->else_branch;
             while (stmt) {
-                generate_code(stmt, indent_level + 1);
+                generate_code_c(stmt, indent_level + 1);
                 stmt = stmt->next;
             }
 
@@ -157,7 +157,7 @@ void generate_code(ASTNode* node, int indent_level) {
 
         ASTNode* stmt = node->then_branch;
         while (stmt) {
-            generate_code(stmt, indent_level + 1);
+            generate_code_c(stmt, indent_level + 1);
             stmt = stmt->next;
         }
 
