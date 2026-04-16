@@ -1,0 +1,37 @@
+START
+  VAR arr AS INT ARRAY SIZE 6
+  VAR i AS INT
+  VAR n AS INT
+  VAR target AS INT
+  VAR found AS INT
+  VAR pos AS INT
+
+  SET n TO 6
+  SET arr[0] TO 15
+  SET arr[1] TO 3
+  SET arr[2] TO 9
+  SET arr[3] TO 27
+  SET arr[4] TO 6
+  SET arr[5] TO 42
+
+  SET target TO 27
+  SET found TO 0
+  SET pos TO 0
+
+  SET i TO 0
+  WHILE i < n
+    IF arr[i] == target
+      SET found TO 1
+      SET pos TO i
+    ENDIF
+    SET i TO i + 1
+  DONE
+
+  IF found == 1
+    SHOW "Found at index:"
+    SHOW pos
+  ELSE
+    SHOW "Not found"
+  ENDIF
+
+STOP

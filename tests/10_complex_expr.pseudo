@@ -1,0 +1,9 @@
+START
+  VAR x AS INT
+  SET x TO (3 + 4) * 2
+  SHOW x
+  SET x TO x - 1
+  SHOW x
+  SET x TO x * x
+  SHOW x
+STOP

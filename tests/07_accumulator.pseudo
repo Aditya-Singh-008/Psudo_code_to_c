@@ -1,0 +1,11 @@
+START
+  VAR i AS INT
+  VAR sum AS INT
+  SET i TO 1
+  SET sum TO 0
+  WHILE i <= 10
+    SET sum TO sum + i
+    SET i TO i + 1
+  DONE
+  SHOW sum
+STOP

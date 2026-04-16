@@ -1,0 +1,7 @@
+START
+  VAR r AS INT
+  SET r TO 1 + 2 * 3
+  SHOW r
+  SET r TO (1 + 2) * 3
+  SHOW r
+STOP

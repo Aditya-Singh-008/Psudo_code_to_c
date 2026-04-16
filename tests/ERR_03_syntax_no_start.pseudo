@@ -1,0 +1,4 @@
+  VAR x AS INT
+  SET x TO 5
+  SHOW x
+STOP

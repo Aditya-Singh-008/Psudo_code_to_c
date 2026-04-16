@@ -59,28 +59,32 @@ extern int yydebug;
     VAR = 260,                     /* VAR  */
     AS = 261,                      /* AS  */
     INT = 262,                     /* INT  */
-    SET = 263,                     /* SET  */
-    TO = 264,                      /* TO  */
-    SHOW = 265,                    /* SHOW  */
-    GET = 266,                     /* GET  */
-    IF = 267,                      /* IF  */
-    ELSE = 268,                    /* ELSE  */
-    ENDIF = 269,                   /* ENDIF  */
-    WHILE = 270,                   /* WHILE  */
-    DONE = 271,                    /* DONE  */
-    PLUS = 272,                    /* PLUS  */
-    MINUS = 273,                   /* MINUS  */
-    MULT = 274,                    /* MULT  */
-    DIV = 275,                     /* DIV  */
-    EQ = 276,                      /* EQ  */
-    NEQ = 277,                     /* NEQ  */
-    LT = 278,                      /* LT  */
-    GT = 279,                      /* GT  */
-    LE = 280,                      /* LE  */
-    GE = 281,                      /* GE  */
-    NUMBER = 282,                  /* NUMBER  */
-    IDENTIFIER = 283,              /* IDENTIFIER  */
-    STRING = 284                   /* STRING  */
+    ARRAY = 263,                   /* ARRAY  */
+    SIZE = 264,                    /* SIZE  */
+    SET = 265,                     /* SET  */
+    TO = 266,                      /* TO  */
+    SHOW = 267,                    /* SHOW  */
+    GET = 268,                     /* GET  */
+    IF = 269,                      /* IF  */
+    ELSE = 270,                    /* ELSE  */
+    ENDIF = 271,                   /* ENDIF  */
+    WHILE = 272,                   /* WHILE  */
+    DONE = 273,                    /* DONE  */
+    PLUS = 274,                    /* PLUS  */
+    MINUS = 275,                   /* MINUS  */
+    MULT = 276,                    /* MULT  */
+    DIV = 277,                     /* DIV  */
+    LBRACKET = 278,                /* LBRACKET  */
+    RBRACKET = 279,                /* RBRACKET  */
+    EQ = 280,                      /* EQ  */
+    NEQ = 281,                     /* NEQ  */
+    LT = 282,                      /* LT  */
+    GT = 283,                      /* GT  */
+    LE = 284,                      /* LE  */
+    GE = 285,                      /* GE  */
+    NUMBER = 286,                  /* NUMBER  */
+    IDENTIFIER = 287,              /* IDENTIFIER  */
+    STRING = 288                   /* STRING  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -95,7 +99,7 @@ union YYSTYPE
     char *id;
     struct ASTNode* node;
 
-#line 99 "parser.tab.h"
+#line 103 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

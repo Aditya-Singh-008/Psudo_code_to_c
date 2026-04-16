@@ -1,0 +1,13 @@
+START
+  VAR x AS INT
+  SET x TO 1
+  WHILE x <= 10
+    IF x == 5
+      SHOW "halfway"
+    ENDIF
+    IF x == 10
+      SHOW "done"
+    ENDIF
+    SET x TO x + 1
+  DONE
+STOP

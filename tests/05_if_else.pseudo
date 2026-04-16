@@ -1,0 +1,9 @@
+START
+  VAR x AS INT
+  SET x TO 3
+  IF x >= 5
+    SHOW "big"
+  ELSE
+    SHOW "small"
+  ENDIF
+STOP

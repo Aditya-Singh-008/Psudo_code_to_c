@@ -48,6 +48,43 @@ ASTNode* create_var_decl_node(const char* name) {
     return node;
 }
 
+/* VAR arr AS INT ARRAY SIZE n
+   str_val = array name,  int_val = declared size */
+ASTNode* create_array_decl_node(const char* name, int size) {
+    ASTNode* node = create_node(NODE_ARRAY_DECL);
+    node->str_val = strdup(name);
+    node->int_val = size;
+    return node;
+}
+
+/* SET arr[index] TO value
+   str_val = array name,  left = index expr,  right = value expr */
+ASTNode* create_array_assign_node(const char* name, ASTNode* index, ASTNode* value) {
+    ASTNode* node = create_node(NODE_ARRAY_ASSIGN);
+    node->str_val = strdup(name);
+    node->left    = index;
+    node->right   = value;
+    return node;
+}
+
+/* arr[index]  used as rvalue in any expression
+   str_val = array name,  left = index expr */
+ASTNode* create_array_access_node(const char* name, ASTNode* index) {
+    ASTNode* node = create_node(NODE_ARRAY_ACCESS);
+    node->str_val = strdup(name);
+    node->left    = index;
+    return node;
+}
+
+/* GET arr[index]  →  scanf("%d", &arr[index]);
+   str_val = array name,  left = index expr */
+ASTNode* create_array_input_node(const char* name, ASTNode* index) {
+    ASTNode* node = create_node(NODE_ARRAY_INPUT);
+    node->str_val = strdup(name);
+    node->left    = index;
+    return node;
+}
+
 ASTNode* create_assign_node(const char* name, ASTNode* expr) {
     ASTNode* node = create_node(NODE_ASSIGN);
     node->str_val = strdup(name);
@@ -102,4 +139,17 @@ ASTNode* append_stmt(ASTNode* list, ASTNode* stmt) {
     }
     current->next = stmt;
     return list;
+}
+
+/* Recursively frees every node in the AST and all strdup'd strings. */
+void free_ast(ASTNode* node) {
+    if (!node) return;
+    free_ast(node->left);
+    free_ast(node->right);
+    free_ast(node->next);
+    free_ast(node->cond);
+    free_ast(node->then_branch);
+    free_ast(node->else_branch);
+    if (node->str_val) free(node->str_val);
+    free(node);
 }

@@ -1,0 +1,24 @@
+START
+  VAR a AS INT
+  VAR b AS INT
+  SET a TO 5
+  SET b TO 5
+  IF a == b
+    SHOW "eq"
+  ENDIF
+  IF a != b
+    SHOW "neq"
+  ENDIF
+  IF a < b
+    SHOW "lt"
+  ENDIF
+  IF a > b
+    SHOW "gt"
+  ENDIF
+  IF a <= b
+    SHOW "le"
+  ENDIF
+  IF a >= b
+    SHOW "ge"
+  ENDIF
+STOP

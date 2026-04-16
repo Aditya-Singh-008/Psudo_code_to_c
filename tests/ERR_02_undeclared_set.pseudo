@@ -1,0 +1,4 @@
+START
+  SET y TO 99
+  SHOW y
+STOP

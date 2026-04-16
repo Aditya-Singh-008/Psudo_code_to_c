@@ -1,0 +1,7 @@
+START
+  VAR a AS INT
+  VAR b AS INT
+  SET a TO 10
+  SET b TO 2
+  SHOW a / b
+STOP

@@ -1,0 +1,8 @@
+START
+  VAR n AS INT
+  SET n TO 5
+  WHILE n > 0
+    SHOW n
+    SET n TO n - 1
+  DONE
+STOP

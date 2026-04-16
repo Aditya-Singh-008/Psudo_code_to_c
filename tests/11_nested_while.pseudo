@@ -1,0 +1,13 @@
+START
+  VAR i AS INT
+  VAR j AS INT
+  SET i TO 1
+  WHILE i <= 3
+    SET j TO 1
+    WHILE j <= 3
+      SHOW i
+      SET j TO j + 1
+    DONE
+    SET i TO i + 1
+  DONE
+STOP

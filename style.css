@@ -288,3 +288,74 @@ body {
     color: #ff4444;
     box-shadow: 0px 10px 25px rgba(255, 68, 68, 0.2);
 }
+
+/* --- COMPILER DIAGNOSTICS PANEL --- */
+#warnings-panel {
+    display: none;                          /* hidden until there are messages */
+    width: 100%;
+    background: rgba(255, 160, 0, 0.06);
+    border: 1px solid rgba(255, 160, 0, 0.35);
+    border-radius: 10px;
+    overflow: hidden;
+    animation: slideDown 0.25s ease;
+    box-shadow: 0 0 18px rgba(255, 160, 0, 0.08);
+}
+
+#warnings-panel.has-errors {
+    background: rgba(255, 60, 60, 0.07);
+    border-color: rgba(255, 60, 60, 0.4);
+    box-shadow: 0 0 18px rgba(255, 60, 60, 0.1);
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+#warnings-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: rgba(255, 160, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 160, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffa500;
+}
+
+#warnings-panel.has-errors #warnings-header {
+    background: rgba(255, 60, 60, 0.12);
+    border-bottom-color: rgba(255, 60, 60, 0.25);
+    color: #ff6060;
+}
+
+#warnings-icon {
+    font-size: 1rem;
+}
+
+#warnings-close {
+    margin-left: auto;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    font-size: 0.9rem;
+}
+
+#warnings-close:hover {
+    opacity: 1;
+}
+
+#warnings-body {
+    margin: 0;
+    padding: 12px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #ffcc66;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

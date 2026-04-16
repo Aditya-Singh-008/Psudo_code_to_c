@@ -1,0 +1,7 @@
+START
+  VAR x AS INT
+  SET x TO 10
+  IF x > 5
+    SHOW "big"
+  ENDIF
+STOP

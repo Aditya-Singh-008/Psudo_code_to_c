@@ -11,6 +11,8 @@
 "VAR"           { return VAR; }
 "AS"            { return AS; }
 "INT"           { return INT; }
+"ARRAY"         { return ARRAY; }
+"SIZE"          { return SIZE; }
 "SET"           { return SET; }
 "TO"            { return TO; }
 "SHOW"          { return SHOW; }
@@ -36,6 +38,8 @@
 "-"             { return MINUS; }
 "*"             { return MULT; }
 "/"             { return DIV; }
+"["             { return LBRACKET; }
+"]"             { return RBRACKET; }
 
 [ \t\n\r]         ; 
 .               { return yytext[0]; }

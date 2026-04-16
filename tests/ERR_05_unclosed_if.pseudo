@@ -1,0 +1,6 @@
+START
+  VAR x AS INT
+  SET x TO 1
+  IF x == 1
+    SHOW "one"
+STOP

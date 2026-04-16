@@ -7,7 +7,7 @@ server.use(cors())
 server.set('view engine','ejs')
 server.set('views','./static');
 server.use(express.json())
-server.use(express.text())
+server.use(express.text({ limit: '50kb' }))   // cap input size — prevents DoS via huge payload
 server.use("/",logging)
 server.use(express.urlencoded({extended:false}))
 server.get("/",(req,res)=>{

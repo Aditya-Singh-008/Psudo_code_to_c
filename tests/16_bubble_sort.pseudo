@@ -1,0 +1,44 @@
+START
+  VAR arr AS INT ARRAY SIZE 5
+  VAR i AS INT
+  VAR j AS INT
+  VAR temp AS INT
+  VAR n AS INT
+
+  SET n TO 5
+
+  SET arr[0] TO 64
+  SET arr[1] TO 34
+  SET arr[2] TO 25
+  SET arr[3] TO 12
+  SET arr[4] TO 22
+
+  SHOW "Unsorted:"
+  SET i TO 0
+  WHILE i < n
+    SHOW arr[i]
+    SET i TO i + 1
+  DONE
+
+  SET i TO 0
+  WHILE i < n - 1
+    SET j TO 0
+    WHILE j < n - i - 1
+      IF arr[j] > arr[j + 1]
+        SET temp TO arr[j]
+        SET arr[j] TO arr[j + 1]
+        SET arr[j + 1] TO temp
+      ENDIF
+      SET j TO j + 1
+    DONE
+    SET i TO i + 1
+  DONE
+
+  SHOW "Sorted:"
+  SET i TO 0
+  WHILE i < n
+    SHOW arr[i]
+    SET i TO i + 1
+  DONE
+
+STOP

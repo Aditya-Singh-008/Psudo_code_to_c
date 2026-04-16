@@ -1,0 +1,5 @@
+START
+  VAR x AS INT
+  SET x TO 42
+  SHOW x
+STOP

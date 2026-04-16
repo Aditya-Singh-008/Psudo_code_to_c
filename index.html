@@ -42,6 +42,14 @@
     </div>
                 <textarea name="" id="output" placeholder="Output here"></textarea>
             </div>
+            <div id="warnings-panel">
+                <div id="warnings-header">
+                    <span id="warnings-icon">⚠</span>
+                    <span>Compiler Diagnostics</span>
+                    <span id="warnings-close" onclick="closeWarnings()">✕</span>
+                </div>
+                <pre id="warnings-body"></pre>
+            </div>
             <div id="select">
                 <button class="button" onclick="prt(event)" type="button" id="load">RUN</button>
                 <button class="button" onclick="reset()" type="reset">RESET</button>

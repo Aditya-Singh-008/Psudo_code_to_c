@@ -1,38 +1,62 @@
 import express from 'express';
-import { writeFile } from 'fs/promises';
-import { exec } from 'child_process'; // Use exec for async-friendly flow
+import { writeFile, readFile } from 'fs/promises';
+import { execFile } from 'child_process';   // execFile: no Node-side shell spawned
 import path from 'path';
-import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+
+// Resolve paths relative to THIS file so they work regardless of where npm start is called from
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const LOGIC_DIR = path.resolve(__dirname, '../../logic');
+
+const INPUT_FILE  = path.join(LOGIC_DIR, '.test.txt');
+const OUTPUT_FILE = path.join(LOGIC_DIR, '.output.txt');
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
     try {
         const data = req.body;
-        // 1. Save the file (await ensures it's finished before we compile)
-        await writeFile("../logic/.test.txt", data);
 
-        // 2. Map Windows paths to WSL paths
-        const winPath = path.resolve("../logic/.test.txt");
-        const wslPath = winPath.replace(/\\/g, '/').replace(/^([A-Z]):/i, (_, drive) => `/mnt/${drive.toLowerCase()}`);
+        // 1. Overwrite the shared input file with the latest pseudocode
+        await writeFile(INPUT_FILE, data);
 
-        const outputPath = wslPath.replace('.test.txt', '.output.txt');
-        const compileDir = path.dirname(wslPath);
-        const command = `wsl bash -c "cd ${compileDir} && ./my_compiler < ${wslPath} > ${outputPath}"`;
+        // 2. Convert Windows absolute path → WSL /mnt/... path
+        const toWsl = (p) =>
+            p.replace(/\\/g, '/').replace(/^([A-Z]):/i, (_, d) => `/mnt/${d.toLowerCase()}`);
 
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.error("WSL Error:", stderr);
-                return res.status(500).send({ error: stderr || error.message });
+        const wslInput  = toWsl(INPUT_FILE);
+        const wslOutput = toWsl(OUTPUT_FILE);
+        const wslDir    = toWsl(LOGIC_DIR);
+
+        // 3. Run compiler via WSL (execFile — no Node-side shell)
+        execFile(
+            'wsl',
+            ['bash', '-c', `cd '${wslDir}' && ./my_compiler < '${wslInput}' > '${wslOutput}'`],
+            async (error, _stdout, stderr) => {
+                if (error) {
+                    console.error("Compile Error:", stderr);
+                    return res.status(500).send({ error: stderr || error.message });
+                }
+
+                try {
+                    // 3. Read compiler output into memory
+                    const output = await readFile(OUTPUT_FILE, 'utf8');
+
+                    // 4. Capture any compiler warnings/errors from stderr
+                    //    (e.g. undeclared variables, duplicate declarations)
+                    const warnings = stderr ? stderr.trim() : '';
+
+                    res.status(201).send({ msg: "Executed Successfully", output, warnings });
+                } catch (readErr) {
+                    console.error("Read Error:", readErr);
+                    res.status(500).send({ error: "Failed to read compiler output." });
+                }
             }
-            // If the command succeeds, stdout might be empty because we redirected to output.txt
-            const data= readFileSync("../logic/.output.txt")
-            res.status(201).send({msg:"Executed Successful",output:`${data}`})
-        });
+        );
 
     } catch (err) {
         console.error("Server Error:", err);
-        res.status(500).send({ err: "Internal Server Error" });
+        res.status(500).send({ error: "Internal Server Error" });
     }
 });
 

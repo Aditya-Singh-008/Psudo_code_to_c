@@ -1,0 +1,7 @@
+START
+  VAR a AS INT
+  SET a TO 7
+  SHOW a + 3
+  SHOW a * 2
+  SHOW a - 2
+STOP

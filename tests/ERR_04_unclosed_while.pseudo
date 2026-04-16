@@ -1,0 +1,7 @@
+START
+  VAR x AS INT
+  SET x TO 1
+  WHILE x < 5
+    SHOW x
+    SET x TO x + 1
+STOP
