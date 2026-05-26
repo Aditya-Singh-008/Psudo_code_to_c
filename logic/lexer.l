@@ -12,7 +12,10 @@
 "AS"            { return AS; }
 "INT"           { return INT; }
 "ARRAY"         { return ARRAY; }
+"DYNAMIC"       { return DYNAMIC; }
 "SIZE"          { return SIZE; }
+"WITH"          { return WITH; }
+"VALUES"        { return VALUES; }
 "SET"           { return SET; }
 "TO"            { return TO; }
 "SHOW"          { return SHOW; }
@@ -31,7 +34,7 @@
 ">"             { return GT; }
 
 [0-9]+          { yylval.num = atoi(yytext); return NUMBER; }
-[a-zA-Z]+       { yylval.id = strdup(yytext); return IDENTIFIER; }
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.id = strdup(yytext); return IDENTIFIER; }
 \"[^\"]*\"      { yylval.id = strdup(yytext); return STRING; }
 
 "+"             { return PLUS; }
@@ -40,6 +43,7 @@
 "/"             { return DIV; }
 "["             { return LBRACKET; }
 "]"             { return RBRACKET; }
+","             { return COMMA; }
 
 [ \t\n\r]         ; 
 .               { return yytext[0]; }

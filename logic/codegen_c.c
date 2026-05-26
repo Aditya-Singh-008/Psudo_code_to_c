@@ -65,6 +65,28 @@ void generate_code_c(ASTNode* node, int indent_level) {
         print_indent(indent_level);
         printf("int %s[%d] = {0};\n", node->str_val, node->int_val);
     }
+    else if (node->type == NODE_ARRAY_DECL_INIT) {
+        /* VAR arr AS INT ARRAY SIZE n WITH VALUES v1 v2 ...  →  int arr[n] = {v1, v2, ...}; */
+        print_indent(indent_level);
+        printf("int %s[%d] = {", node->str_val, node->int_val);
+        for (int i = 0; i < node->values_len; i++) {
+            if (i > 0) printf(", ");
+            printf("%d", node->values[i]);
+        }
+        printf("};\n");
+    }
+    else if (node->type == NODE_ARRAY_DECL_DYNAMIC) {
+        /* VAR arr AS INT DYNAMIC ARRAY SIZE n  →  int* arr = (int*)malloc(n * sizeof(int)); */
+        print_indent(indent_level);
+        if (node->int_val > 0) {
+            printf("int* %s = (int*)malloc(%d * sizeof(int));\n", node->str_val, node->int_val);
+            printf("/* NOTE: add #include <stdlib.h> and free(%s) when done */\n", node->str_val);
+        } else {
+            /* Unbounded – start with a small buffer; user manages realloc */
+            printf("int* %s = NULL; /* dynamic — use malloc/realloc as needed */\n", node->str_val);
+        }
+    }
+
     else if (node->type == NODE_ASSIGN) {
         /* Warn if assigning to a variable that was never declared */
         if (get_type_sym(node->str_val) == NULL) {

@@ -47,13 +47,40 @@ void generate_code_python(ASTNode* node, int indent_level) {
         }
     }
     else if (node->type == NODE_VAR_DECL) {
-        print_indent_py(indent_level);
-        printf("%s = 0\n", node->str_val);
+        /* In Python there are no type declarations.
+           We emit `name = 0` as a stub ONLY if the very next statement
+           is NOT already a SET (NODE_ASSIGN) to the same name — otherwise
+           we get the redundant double-assignment. */
+        int skip = (node->next != NULL &&
+                    node->next->type == NODE_ASSIGN &&
+                    node->next->str_val != NULL &&
+                    strcmp(node->next->str_val, node->str_val) == 0);
+        if (!skip) {
+            print_indent_py(indent_level);
+            printf("%s = 0\n", node->str_val);
+        }
     }
+
     else if (node->type == NODE_ARRAY_DECL) {
         print_indent_py(indent_level);
         printf("%s = [0] * %d\n", node->str_val, node->int_val);
     }
+    else if (node->type == NODE_ARRAY_DECL_INIT) {
+        /* arr = [10, 20, 30] */
+        print_indent_py(indent_level);
+        printf("%s = [", node->str_val);
+        for (int i = 0; i < node->values_len; i++) {
+            if (i > 0) printf(", ");
+            printf("%d", node->values[i]);
+        }
+        printf("]\n");
+    }
+    else if (node->type == NODE_ARRAY_DECL_DYNAMIC) {
+        /* Python lists are already dynamic — start empty */
+        print_indent_py(indent_level);
+        printf("%s = []  # dynamic list\n", node->str_val);
+    }
+
     else if (node->type == NODE_ASSIGN) {
         print_indent_py(indent_level);
         printf("%s = ", node->str_val);

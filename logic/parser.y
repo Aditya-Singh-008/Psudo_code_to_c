@@ -8,7 +8,11 @@
 void yyerror(const char *s);
 int yylex();
 
-extern ASTNode* ast_root; // Defined in main.c
+extern ASTNode* ast_root;
+
+/* Scratch buffer for WITH VALUES literal lists */
+static int  vlist_buf[1024];
+static int  vlist_len = 0;
 
 %}
 
@@ -18,7 +22,8 @@ extern ASTNode* ast_root; // Defined in main.c
     struct ASTNode* node;
 }
 
-%token START STOP VAR AS INT ARRAY SIZE SET TO SHOW GET
+%token START STOP VAR AS INT ARRAY DYNAMIC SIZE SET TO SHOW GET
+%token WITH VALUES COMMA
 %token IF ELSE ENDIF WHILE DONE
 %token PLUS MINUS MULT DIV
 %token LBRACKET RBRACKET
@@ -27,7 +32,6 @@ extern ASTNode* ast_root; // Defined in main.c
 %token <id> IDENTIFIER STRING
 
 %type <node> program statements statement declaration assignment print_stmt input_stmt if_stmt while_stmt expression condition array_access
-
 %left PLUS MINUS
 %left MULT DIV
 
@@ -62,15 +66,53 @@ declaration:
             $$ = NULL;
         }
     }
+    /* Static fixed-size:  VAR arr AS INT ARRAY SIZE 5 */
     | VAR IDENTIFIER AS INT ARRAY SIZE NUMBER {
-        /* Register as array type in symbol table so codegen can warn on misuse */
         if (add_symbol($2, "int[]") == 0) {
             $$ = create_array_decl_node($2, $7);
         } else {
             $$ = NULL;
         }
     }
+    /* Static with literal values:  VAR arr AS INT ARRAY SIZE 3 WITH VALUES 10 20 30 */
+    | VAR IDENTIFIER AS INT ARRAY SIZE NUMBER WITH VALUES value_list {
+        if (add_symbol($2, "int[]") == 0) {
+            int* copy = (int*)malloc(vlist_len * sizeof(int));
+            memcpy(copy, vlist_buf, vlist_len * sizeof(int));
+            $$ = create_array_decl_init_node($2, $7, copy, vlist_len);
+        } else {
+            $$ = NULL;
+        }
+    }
+    /* Dynamic/heap array:  VAR arr AS INT DYNAMIC ARRAY SIZE 5 */
+    | VAR IDENTIFIER AS INT DYNAMIC ARRAY SIZE NUMBER {
+        if (add_symbol($2, "dynamic") == 0) {
+            $$ = create_array_decl_dynamic_node($2, $8);
+        } else {
+            $$ = NULL;
+        }
+    }
+    /* Dynamic/heap, unbounded:  VAR arr AS INT DYNAMIC ARRAY */
+    | VAR IDENTIFIER AS INT DYNAMIC ARRAY {
+        if (add_symbol($2, "dynamic") == 0) {
+            $$ = create_array_decl_dynamic_node($2, 0);
+        } else {
+            $$ = NULL;
+        }
+    }
     ;
+
+/* ── Value list for WITH VALUES ──────────────────────── */
+value_list:
+    NUMBER {
+        vlist_len = 0;
+        vlist_buf[vlist_len++] = $1;
+    }
+    | value_list NUMBER {
+        vlist_buf[vlist_len++] = $2;
+    }
+    ;
+
 
 /* ── Assignments ─────────────────────────────────────── */
 assignment:

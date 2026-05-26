@@ -60,31 +60,35 @@ extern int yydebug;
     AS = 261,                      /* AS  */
     INT = 262,                     /* INT  */
     ARRAY = 263,                   /* ARRAY  */
-    SIZE = 264,                    /* SIZE  */
-    SET = 265,                     /* SET  */
-    TO = 266,                      /* TO  */
-    SHOW = 267,                    /* SHOW  */
-    GET = 268,                     /* GET  */
-    IF = 269,                      /* IF  */
-    ELSE = 270,                    /* ELSE  */
-    ENDIF = 271,                   /* ENDIF  */
-    WHILE = 272,                   /* WHILE  */
-    DONE = 273,                    /* DONE  */
-    PLUS = 274,                    /* PLUS  */
-    MINUS = 275,                   /* MINUS  */
-    MULT = 276,                    /* MULT  */
-    DIV = 277,                     /* DIV  */
-    LBRACKET = 278,                /* LBRACKET  */
-    RBRACKET = 279,                /* RBRACKET  */
-    EQ = 280,                      /* EQ  */
-    NEQ = 281,                     /* NEQ  */
-    LT = 282,                      /* LT  */
-    GT = 283,                      /* GT  */
-    LE = 284,                      /* LE  */
-    GE = 285,                      /* GE  */
-    NUMBER = 286,                  /* NUMBER  */
-    IDENTIFIER = 287,              /* IDENTIFIER  */
-    STRING = 288                   /* STRING  */
+    DYNAMIC = 264,                 /* DYNAMIC  */
+    SIZE = 265,                    /* SIZE  */
+    SET = 266,                     /* SET  */
+    TO = 267,                      /* TO  */
+    SHOW = 268,                    /* SHOW  */
+    GET = 269,                     /* GET  */
+    WITH = 270,                    /* WITH  */
+    VALUES = 271,                  /* VALUES  */
+    COMMA = 272,                   /* COMMA  */
+    IF = 273,                      /* IF  */
+    ELSE = 274,                    /* ELSE  */
+    ENDIF = 275,                   /* ENDIF  */
+    WHILE = 276,                   /* WHILE  */
+    DONE = 277,                    /* DONE  */
+    PLUS = 278,                    /* PLUS  */
+    MINUS = 279,                   /* MINUS  */
+    MULT = 280,                    /* MULT  */
+    DIV = 281,                     /* DIV  */
+    LBRACKET = 282,                /* LBRACKET  */
+    RBRACKET = 283,                /* RBRACKET  */
+    EQ = 284,                      /* EQ  */
+    NEQ = 285,                     /* NEQ  */
+    LT = 286,                      /* LT  */
+    GT = 287,                      /* GT  */
+    LE = 288,                      /* LE  */
+    GE = 289,                      /* GE  */
+    NUMBER = 290,                  /* NUMBER  */
+    IDENTIFIER = 291,              /* IDENTIFIER  */
+    STRING = 292                   /* STRING  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -93,13 +97,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "parser.y"
+#line 19 "parser.y"
 
     int num;
     char *id;
     struct ASTNode* node;
 
-#line 103 "parser.tab.h"
+#line 107 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

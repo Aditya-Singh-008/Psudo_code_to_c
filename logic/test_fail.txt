@@ -1,0 +1,13 @@
+START
+  VAR n AS INT
+  VAR t1 AS INT
+  VAR t2 AS INT
+  VAR nextTerm AS INT
+  VAR i AS INT
+
+  GET n
+  
+  SET t1 TO 0
+  SET t2 TO 1
+  SET i TO 1
+STOP

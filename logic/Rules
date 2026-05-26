@@ -1,7 +1,18 @@
-Pseudo Keyword,C Equivalent,Purpose
+Pseudo Keyword,Output (C / Java / Python),Purpose
 START / STOP,main() { ... },Program Entry/Exit
-VAR x AS INT,int x;,Declaration
+VAR x AS INT,int x;,Variable Declaration
 SET x TO 5,x = 5;,Assignment
-"SHOW ""Hi""","printf(""Hi"");",Output
-GET x,"scanf(""%d"", &x);",Input
-IF / ELSE / ENDIF,if / else,Conditionals
+SHOW "Hi",printf("Hi\n"); / System.out.println("Hi") / print("Hi"),Output String
+SHOW x,printf("%d\n" x); / System.out.println(x) / print(x),Output Variable
+GET x,scanf("%d" &x); / x = scanner.nextInt(); / x = int(input()),Input
+IF cond / ELSE / ENDIF,if (...) { } else { },Conditionals
+WHILE cond / DONE,while (...) { },Loops
+VAR arr AS INT ARRAY SIZE 5,int arr[5]={0}; / int[] arr=new int[5]; / arr=[0]*5,Static Array
+VAR arr AS INT ARRAY SIZE 3 WITH VALUES 1 2 3,int arr[3]={1 2 3}; / int[]{1 2 3} / [1 2 3],Array With Init
+VAR arr AS INT DYNAMIC ARRAY SIZE 5,int* arr=malloc(...); / ArrayList / arr=[],Dynamic/Heap Array
+VAR arr AS INT DYNAMIC ARRAY,int* arr=NULL; / ArrayList / arr=[],Unbounded Dynamic Array
+SET arr[0] TO 10,arr[0] = 10;,Array Element Assignment
+SHOW arr[i],printf("%d\n" arr[i]); / println(arr[i]) / print(arr[i]),Array Element Output
+GET arr[i],scanf("%d" &arr[i]); / arr[i]=scanner.nextInt() / arr[i]=int(input()),Array Element Input
+x + y / x - y / x * y / x / y,Arithmetic expressions,Arithmetic Operators
+x == y / x != y / x < y / x > y / x <= y / x >= y,Relational operators in IF and WHILE conditions,Comparison

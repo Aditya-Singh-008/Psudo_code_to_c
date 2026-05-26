@@ -1,41 +1,17 @@
-#include <stdio.h>
+import java.util.Scanner;
+import java.util.ArrayList;
 
-int main() {
-    int arr[8] = {0};
-    int i;
-    int n;
-    int sum;
-    int max;
-    int min;
-    n = 8;
-    arr[0] = 7;
-    arr[1] = 2;
-    arr[2] = 15;
-    arr[3] = 4;
-    arr[4] = 11;
-    arr[5] = 9;
-    arr[6] = 1;
-    arr[7] = 13;
-    sum = 0;
-    max = arr[0];
-    min = arr[0];
-    i = 1;
-    while ((i < n)) {
-        sum = (sum + arr[i]);
-        if ((arr[i] > max)) {
-            max = arr[i];
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int count;
+        count = 10;
+        System.out.println("Counting down:");
+        while ((count > 0)) {
+            System.out.println(count);
+            count = (count - 1);
         }
-        if ((arr[i] < min)) {
-            min = arr[i];
-        }
-        i = (i + 1);
+        System.out.println("Blastoff!");
+        scanner.close();
     }
-    sum = (sum + arr[0]);
-    printf("%s\n", "Sum:");
-    printf("%d\n", sum);
-    printf("%s\n", "Max:");
-    printf("%d\n", max);
-    printf("%s\n", "Min:");
-    printf("%d\n", min);
-    return 0;
 }

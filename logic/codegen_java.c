@@ -33,7 +33,7 @@ void generate_code_java(ASTNode* node, int indent_level) {
     if (node == NULL) return;
 
     if (node->type == NODE_PROGRAM) {
-        printf("import java.util.Scanner;\n\n");
+        printf("import java.util.Scanner;\nimport java.util.ArrayList;\n\n");
         printf("public class Main {\n");
         printf("    public static void main(String[] args) {\n");
         printf("        Scanner scanner = new Scanner(System.in);\n");
@@ -57,12 +57,32 @@ void generate_code_java(ASTNode* node, int indent_level) {
     }
     else if (node->type == NODE_VAR_DECL) {
         print_indent_java(indent_level);
-        printf("int %s = 0;\n", node->str_val);
+        printf("int %s;\n", node->str_val);
     }
+
     else if (node->type == NODE_ARRAY_DECL) {
         print_indent_java(indent_level);
         printf("int[] %s = new int[%d];\n", node->str_val, node->int_val);
     }
+    else if (node->type == NODE_ARRAY_DECL_INIT) {
+        /* int[] arr = {10, 20, 30}; */
+        print_indent_java(indent_level);
+        printf("int[] %s = {", node->str_val);
+        for (int i = 0; i < node->values_len; i++) {
+            if (i > 0) printf(", ");
+            printf("%d", node->values[i]);
+        }
+        printf("};\n");
+    }
+    else if (node->type == NODE_ARRAY_DECL_DYNAMIC) {
+        /* ArrayList<Integer> arr = new ArrayList<>(); */
+        print_indent_java(indent_level);
+        if (node->int_val > 0)
+            printf("ArrayList<Integer> %s = new ArrayList<>(%d);\n", node->str_val, node->int_val);
+        else
+            printf("ArrayList<Integer> %s = new ArrayList<>();\n", node->str_val);
+    }
+
     else if (node->type == NODE_ASSIGN) {
         print_indent_java(indent_level);
         printf("%s = ", node->str_val);

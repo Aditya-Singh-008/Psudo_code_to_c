@@ -1,0 +1,80 @@
+PROJECT AND TEAM INFORMATION
+
+Project Title
+Conversion of Structured Pseudocode into C Code (Multi-target: C / Python / Java)
+
+Project GitHub URL
+https://github.com/Aditya-Singh-008/Psudo_code_to_c
+
+Student/Team Information
+Team Name:
+Team Agri
+
+Team member 1 (Team Lead)
+Aditya Singh (Team Lead) — University Roll Number: 2318227, Student ID: 230112147, Email: adityasingh91053@gmail.com
+
+Team member 2
+Kritika Tyagi — University Roll Number: 2319012, Student ID: 230121276, Email: kritika.tyagi25july@gmail.com
+
+Team member 3
+Priyanka Rawat — University Roll Number: 2319287, Student ID: 230121355, Email: priyankarwtt2@gmail.com
+
+Team member 4
+N/A (team has 3 members)
+
+
+PROJECT PROGRESS DESCRIPTION
+
+Project Abstract
+Our project translates a formally-defined, English-like pseudocode language into executable program code. Unlike informal pseudocode sketches, our input is treated as a real language with a lexer, parser, and an Abstract Syntax Tree (AST). Using a Flex + Bison compiler pipeline, we tokenize and parse pseudocode into an AST, then traverse that AST to generate well-formatted output programs. In Phase 3 we expanded beyond only C: the same AST can now target multiple output languages (C, Python, and Java) by switching only the code-generation module. We also extended the language to support integer arrays (static arrays, arrays initialized with literal values, and dynamic arrays). The system is exposed through a browser UI and a Node.js/Express backend that invokes the compiler and returns generated code and diagnostics, making the tool useful for both learning compiler design and helping beginners convert algorithms into working code.
+
+Updated Project Approach and Architecture
+The architecture follows a modular compiler design:
+(1) Lexical & Syntax Layer (Flex + Bison): `logic/lexer.l` tokenizes keywords, identifiers, literals, and operators; `logic/parser.y` applies an LALR grammar to build the AST.
+(2) Semantic Layer (Symbol Table): `logic/symtab.c` tracks identifiers and types (including `int[]` / dynamic arrays) and helps detect duplicate declarations; codegen emits warnings for undeclared identifiers.
+(3) Synthesis Layer (Multi-target codegen): separate emitters generate different target languages: `logic/codegen_c.c`, `logic/codegen_python.c`, `logic/codegen_java.c`. `logic/main.c` selects the target language via CLI arg (`c` default, `python`, `java`).
+End-to-end flow: Frontend (`index.html`, `script.js`) POSTs pseudocode + optional `lang` to the backend (`server/api/api.js`). The backend writes input to disk and runs `logic/my_compiler <lang>`, then returns generated output and any warnings/errors (stderr).
+
+Tasks Completed
+Task Completed | Team Member
+- Finalization and extension of pseudocode grammar (arrays + multi-target support) | Aditya
+- Lexer + parser implementation and integration (Flex/Bison) | Aditya
+- AST implementation + new AST nodes for arrays (decl/assign/access/input) | Kritika
+- Multi-target code generation: C / Python / Java emitters | Kritika
+- Symbol table updates for arrays + duplicate checks + capacity handling | Priyanka
+- Semantic diagnostics in codegen (undeclared variable/array warnings) | Priyanka
+- Backend integration: `lang` parameter support and compiler invocation via WSL | Team (integration)
+- Sample programs / validation runs (including array test) | Team
+
+Challenges/Roadblocks
+Key challenges included: extending the grammar cleanly to support multiple array forms (static, literal-initialized, dynamic) without breaking existing constructs; ensuring AST node design stays generic enough to support multiple output targets; and keeping the Windows + WSL compiler execution reliable (path conversion, stdin/stdout piping, and capturing stderr diagnostics). Another recurring challenge was maintaining consistent semantics across code generators so the same pseudocode behavior is preserved in C, Python, and Java outputs.
+
+Tasks Pending
+Tasks Pending | Owner
+- Improve and formalize the test suite (more positive/negative programs, edge cases for arrays) | Team
+- Tighten semantic checks (array bounds checks where possible, stronger type rules) | Priyanka
+- Improve documentation/screenshots/demo steps for final submission | Team
+- UI polish (syntax highlighting / better error presentation) | Team
+
+Project Outcome/Deliverables
+Deliverables include: (1) a formally defined pseudocode language with arrays and core control-flow constructs, (2) a working compiler pipeline (Flex + Bison + C) that builds an AST, (3) multi-target code generation producing C / Python / Java source code from the same pseudocode input, (4) a browser-based frontend + Express backend for running translations, and (5) diagnostic reporting for common semantic issues (duplicate/undeclared identifiers).
+
+Progress Overview
+Core translation is complete end-to-end and supports variables, expressions, IF/ELSE, WHILE, input/output, and array operations. Multi-target output generation is implemented (C/Python/Java) and selectable through the backend `lang` parameter. Remaining work is mostly quality-focused: improving test coverage, tightening validations/diagnostics, and polishing documentation and UI for final delivery.
+
+Testing and Validation Status
+Test Type | Status (Pass/Fail) | Notes
+- Lexical Analysis | Pass | Tokenizes keywords, identifiers, numbers, strings, operators, brackets.
+- Syntax Analysis | Pass | Parses control flow + array constructs (decl/assign/access).
+- Code Generation (C) | Pass | Emits compilable C including array syntax.
+- Code Generation (Python) | Pass | Emits Python list-based arrays and matching control flow.
+- Code Generation (Java) | Pass | Emits Java program structure and array operations.
+- Semantic Diagnostics | Pass (warnings) | Duplicate declarations blocked; undeclared identifiers warned during generation.
+
+Deliverables Progress
+- Pseudocode grammar + rules | Completed
+- Flex lexer + Bison parser | Completed
+- AST + array AST extensions | Completed
+- Multi-target code generators (C/Python/Java) | Completed
+- Web UI + backend API integration | Completed
+- Expanded automated testing + documentation polish | In progress

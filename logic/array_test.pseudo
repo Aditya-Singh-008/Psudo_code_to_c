@@ -1,0 +1,10 @@
+START
+  VAR scores AS INT ARRAY SIZE 3 WITH VALUES 10 20 30
+  VAR buffer AS INT DYNAMIC ARRAY SIZE 5
+  VAR i AS INT
+  SET i TO 0
+  WHILE i < 3
+    SHOW scores[i]
+    SET i TO i + 1
+  DONE
+STOP

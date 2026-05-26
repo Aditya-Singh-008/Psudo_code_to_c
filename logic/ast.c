@@ -4,13 +4,15 @@
 
 ASTNode* create_node(NodeType type) {
     ASTNode* node = (ASTNode*)malloc(sizeof(ASTNode));
-    node->type = type;
-    node->int_val = 0;
-    node->str_val = NULL;
-    node->left = NULL;
-    node->right = NULL;
-    node->next = NULL;
-    node->cond = NULL;
+    node->type       = type;
+    node->int_val    = 0;
+    node->str_val    = NULL;
+    node->values     = NULL;
+    node->values_len = 0;
+    node->left       = NULL;
+    node->right      = NULL;
+    node->next       = NULL;
+    node->cond       = NULL;
     node->then_branch = NULL;
     node->else_branch = NULL;
     return node;
@@ -56,6 +58,30 @@ ASTNode* create_array_decl_node(const char* name, int size) {
     node->int_val = size;
     return node;
 }
+
+/* VAR arr AS INT ARRAY SIZE n WITH VALUES v1, v2, ...
+   str_val = name, int_val = size, values[] = literal list, values_len = count */
+ASTNode* create_array_decl_init_node(const char* name, int size, int* vals, int vals_len) {
+    ASTNode* node = create_node(NODE_ARRAY_DECL_INIT);
+    node->str_val    = strdup(name);
+    node->int_val    = size;
+    node->values     = vals;      /* caller transfers ownership */
+    node->values_len = vals_len;
+    return node;
+}
+
+/* VAR arr AS INT DYNAMIC ARRAY SIZE n
+   C   → int* arr = (int*)malloc(n * sizeof(int));
+   Java → ArrayList<Integer> arr = new ArrayList<>(n);
+   Py  → arr = []
+   str_val = name,  int_val = size hint (0 = unbounded) */
+ASTNode* create_array_decl_dynamic_node(const char* name, int size) {
+    ASTNode* node = create_node(NODE_ARRAY_DECL_DYNAMIC);
+    node->str_val = strdup(name);
+    node->int_val = size;
+    return node;
+}
+
 
 /* SET arr[index] TO value
    str_val = array name,  left = index expr,  right = value expr */
@@ -151,5 +177,6 @@ void free_ast(ASTNode* node) {
     free_ast(node->then_branch);
     free_ast(node->else_branch);
     if (node->str_val) free(node->str_val);
+    if (node->values)  free(node->values);
     free(node);
 }

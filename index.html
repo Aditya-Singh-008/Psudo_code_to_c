@@ -28,15 +28,114 @@
     </div>
     <div class="main-wrapper">
         <div id="left-element">
-            <h3>Instructions</h3>
-            <p>1. START / STOP --> main() { ... }</p>
-            <p>2. VAR x AS INT --> int x;</p>
-            <p>3. SET x TO 5 --> x = 5;</p>
-            <p>4. SHOW "Hi" --> printf("Hi");</p>
-            <p>5. GET x --> scanf("%d",&x);</p>
-            <p>6. IF ELSE / ENDIF --> if / else </p>
-        </div>
 
+            <!-- Tab Buttons -->
+            <div id="panel-tabs">
+                <button class="tab-btn active" id="tab-instructions" onclick="switchTab('instructions')">📖 Instructions</button>
+                <button class="tab-btn" id="tab-examples" onclick="switchTab('examples')">💡 Examples</button>
+            </div>
+
+            <!-- Instructions Panel -->
+            <div id="panel-instructions" class="tab-panel active">
+                <div class="rule-section">
+                    <div class="rule-category">🚀 Program Structure</div>
+                    <div class="rule-row"><code>START</code> → <span>begins program</span></div>
+                    <div class="rule-row"><code>STOP</code> → <span>ends program</span></div>
+                </div>
+                <div class="rule-section">
+                    <div class="rule-category">📦 Variables</div>
+                    <div class="rule-row"><code>VAR x AS INT</code> → <span>int x;</span></div>
+                    <div class="rule-row"><code>SET x TO 5</code> → <span>x = 5;</span></div>
+                </div>
+                <div class="rule-section">
+                    <div class="rule-category">📋 Arrays</div>
+                    <div class="rule-row"><code>VAR arr AS INT ARRAY SIZE 5</code> → <span>int arr[5]</span></div>
+                    <div class="rule-row"><code>VAR arr AS INT ARRAY SIZE 3 WITH VALUES 1 2 3</code> → <span>int arr[3] = {1,2,3}</span></div>
+                    <div class="rule-row"><code>VAR arr AS INT DYNAMIC ARRAY SIZE 5</code> → <span>malloc / ArrayList / []</span></div>
+                    <div class="rule-row"><code>SET arr[0] TO 10</code> → <span>arr[0] = 10;</span></div>
+                    <div class="rule-row"><code>SHOW arr[i]</code> → <span>print element</span></div>
+                    <div class="rule-row"><code>GET arr[i]</code> → <span>read element</span></div>
+                </div>
+                <div class="rule-section">
+                    <div class="rule-category">🖨️ I/O</div>
+                    <div class="rule-row"><code>SHOW "Hi"</code> → <span>print string</span></div>
+                    <div class="rule-row"><code>SHOW x</code> → <span>print variable</span></div>
+                    <div class="rule-row"><code>GET x</code> → <span>read input</span></div>
+                </div>
+                <div class="rule-section">
+                    <div class="rule-category">🔀 Control Flow</div>
+                    <div class="rule-row"><code>IF cond … ELSE … ENDIF</code> → <span>if / else</span></div>
+                    <div class="rule-row"><code>WHILE cond … DONE</code> → <span>while loop</span></div>
+                </div>
+                <div class="rule-section">
+                    <div class="rule-category">➕ Operators</div>
+                    <div class="rule-row"><code>+ - * /</code> → <span>arithmetic</span></div>
+                    <div class="rule-row"><code>== != &lt; &gt; &lt;= &gt;=</code> → <span>comparison</span></div>
+                </div>
+            </div>
+
+            <!-- Examples Panel -->
+            <div id="panel-examples" class="tab-panel">
+                <p class="examples-hint">Click any example to load it →</p>
+
+                <div class="sample-card" onclick="loadSample(0)">
+                    <div class="sample-badge">01</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Hello World</div>
+                        <div class="sample-desc">Basic output · START / STOP / SHOW</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(1)">
+                    <div class="sample-badge">02</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Simple Calculator</div>
+                        <div class="sample-desc">Variables · Arithmetic · User Input</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(2)">
+                    <div class="sample-badge">03</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Even or Odd</div>
+                        <div class="sample-desc">GET · IF / ELSE / ENDIF</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(3)">
+                    <div class="sample-badge">04</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Countdown Loop</div>
+                        <div class="sample-desc">WHILE · DONE · Decrement</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(4)">
+                    <div class="sample-badge">05</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Array Sum</div>
+                        <div class="sample-desc">Arrays · WITH VALUES · Loop · Accumulator</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(5)">
+                    <div class="sample-badge">06</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Bubble Sort</div>
+                        <div class="sample-desc">Nested Loops · Array Swapping · IF</div>
+                    </div>
+                </div>
+
+                <div class="sample-card" onclick="loadSample(6)">
+                    <div class="sample-badge">07</div>
+                    <div class="sample-info">
+                        <div class="sample-title">Fibonacci Sequence</div>
+                        <div class="sample-desc">GET · Sequence Generation · Variables</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <div id="center">
             <div id="print">
                 <textarea id="container" placeholder="Enter pseudocode here..."></textarea>

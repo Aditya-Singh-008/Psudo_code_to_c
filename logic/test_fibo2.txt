@@ -1,0 +1,7 @@
+START
+  VAR n AS INT
+  VAR t1 AS INT
+  VAR t2 AS INT
+  VAR nextTerm AS INT
+  VAR i AS INT
+STOP

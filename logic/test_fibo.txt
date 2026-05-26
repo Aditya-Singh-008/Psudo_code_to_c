@@ -1,0 +1,23 @@
+START
+  VAR n AS INT
+  VAR t1 AS INT
+  VAR t2 AS INT
+  VAR nextTerm AS INT
+  VAR i AS INT
+
+  SHOW "Enter number of terms:"
+  GET n
+  
+  SET t1 TO 0
+  SET t2 TO 1
+  SET i TO 1
+
+  SHOW "Fibonacci Sequence:"
+  WHILE i <= n
+    SHOW t1
+    SET nextTerm TO t1 + t2
+    SET t1 TO t2
+    SET t2 TO nextTerm
+    SET i TO i + 1
+  DONE
+STOP

@@ -1,0 +1,4 @@
+START
+  VAR n AS INT
+  GET n
+STOP

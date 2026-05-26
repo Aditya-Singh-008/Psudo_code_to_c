@@ -5,11 +5,13 @@ typedef enum {
     NODE_PROGRAM,
     NODE_BLOCK,
     NODE_VAR_DECL,
-    NODE_ARRAY_DECL,    /* VAR arr AS INT ARRAY SIZE n  */
+    NODE_ARRAY_DECL,        /* VAR arr AS INT ARRAY SIZE n                          */
+    NODE_ARRAY_DECL_INIT,   /* VAR arr AS INT ARRAY SIZE n WITH VALUES v1,v2,…      */
+    NODE_ARRAY_DECL_DYNAMIC,/* VAR arr AS INT DYNAMIC ARRAY SIZE n (malloc/ArrayList) */
     NODE_ASSIGN,
-    NODE_ARRAY_ASSIGN,  /* SET arr[index] TO expr       */
-    NODE_ARRAY_ACCESS,  /* arr[index]  (rvalue)         */
-    NODE_ARRAY_INPUT,   /* GET arr[index]               */
+    NODE_ARRAY_ASSIGN,      /* SET arr[index] TO expr                          */
+    NODE_ARRAY_ACCESS,      /* arr[index]  (rvalue)                            */
+    NODE_ARRAY_INPUT,       /* GET arr[index]                                  */
     NODE_PRINT,
     NODE_INPUT,
     NODE_IF,
@@ -23,13 +25,17 @@ typedef enum {
 typedef struct ASTNode {
     NodeType type;
 
-    int int_val;        /* NUMBER value  /  array size  */
-    char* str_val;      /* name / operator string       */
+    int int_val;        /* NUMBER value  /  array size              */
+    char* str_val;      /* name / operator string                   */
 
-    struct ASTNode* left;        /* general child / index expr   */
-    struct ASTNode* right;       /* general child / value expr   */
-    struct ASTNode* next;        /* sibling in statement list    */
-    struct ASTNode* cond;        /* IF/WHILE condition           */
+    /* Inline initialiser list – only used by NODE_ARRAY_DECL_INIT */
+    int* values;        /* heap-allocated array of integer literals */
+    int  values_len;    /* number of entries in values[]            */
+
+    struct ASTNode* left;        /* general child / index expr       */
+    struct ASTNode* right;       /* general child / value expr       */
+    struct ASTNode* next;        /* sibling in statement list        */
+    struct ASTNode* cond;        /* IF/WHILE condition               */
     struct ASTNode* then_branch;
     struct ASTNode* else_branch;
 } ASTNode;
@@ -41,6 +47,8 @@ ASTNode* create_str_node(const char* str);
 ASTNode* create_binop_node(const char* op, ASTNode* left, ASTNode* right);
 ASTNode* create_var_decl_node(const char* name);
 ASTNode* create_array_decl_node(const char* name, int size);
+ASTNode* create_array_decl_init_node(const char* name, int size, int* vals, int vals_len);
+ASTNode* create_array_decl_dynamic_node(const char* name, int size);
 ASTNode* create_assign_node(const char* name, ASTNode* expr);
 ASTNode* create_array_assign_node(const char* name, ASTNode* index, ASTNode* value);
 ASTNode* create_array_access_node(const char* name, ASTNode* index);

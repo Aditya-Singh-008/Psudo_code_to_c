@@ -1,44 +1,12 @@
 START
-  VAR arr AS INT ARRAY SIZE 8
-  VAR i AS INT
-  VAR n AS INT
-  VAR sum AS INT
-  VAR max AS INT
-  VAR min AS INT
+  VAR count AS INT
+  SET count TO 10
 
-  SET n TO 8
-  SET arr[0] TO 7
-  SET arr[1] TO 2
-  SET arr[2] TO 15
-  SET arr[3] TO 4
-  SET arr[4] TO 11
-  SET arr[5] TO 9
-  SET arr[6] TO 1
-  SET arr[7] TO 13
-
-  SET sum TO 0
-  SET max TO arr[0]
-  SET min TO arr[0]
-
-  SET i TO 1
-  WHILE i < n
-    SET sum TO sum + arr[i]
-    IF arr[i] > max
-      SET max TO arr[i]
-    ENDIF
-    IF arr[i] < min
-      SET min TO arr[i]
-    ENDIF
-    SET i TO i + 1
+  SHOW "Counting down:"
+  WHILE count > 0
+    SHOW count
+    SET count TO count - 1
   DONE
 
-  SET sum TO sum + arr[0]
-
-  SHOW "Sum:"
-  SHOW sum
-  SHOW "Max:"
-  SHOW max
-  SHOW "Min:"
-  SHOW min
-
+  SHOW "Blastoff!"
 STOP
