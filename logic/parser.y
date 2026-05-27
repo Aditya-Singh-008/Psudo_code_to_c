@@ -11,7 +11,8 @@ int yylex();
 extern ASTNode* ast_root;
 
 /* Scratch buffer for WITH VALUES literal lists */
-static int  vlist_buf[1024];
+#define MAX_ARRAY_VALUES 1024
+static int  vlist_buf[MAX_ARRAY_VALUES];
 static int  vlist_len = 0;
 
 %}
@@ -76,7 +77,10 @@ declaration:
     }
     /* Static with literal values:  VAR arr AS INT ARRAY SIZE 3 WITH VALUES 10 20 30 */
     | VAR IDENTIFIER AS INT ARRAY SIZE NUMBER WITH VALUES value_list {
-        if (add_symbol($2, "int[]") == 0) {
+        if (vlist_len > $7) {
+            yyerror("array initializer contains more values than its declared size");
+            YYABORT;
+        } else if (add_symbol($2, "int[]") == 0) {
             int* copy = (int*)malloc(vlist_len * sizeof(int));
             memcpy(copy, vlist_buf, vlist_len * sizeof(int));
             $$ = create_array_decl_init_node($2, $7, copy, vlist_len);
@@ -109,6 +113,10 @@ value_list:
         vlist_buf[vlist_len++] = $1;
     }
     | value_list NUMBER {
+        if (vlist_len >= MAX_ARRAY_VALUES) {
+            yyerror("array initializer exceeds the maximum of 1024 values");
+            YYABORT;
+        }
         vlist_buf[vlist_len++] = $2;
     }
     ;

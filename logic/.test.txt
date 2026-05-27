@@ -1,12 +1,15 @@
 START
-  VAR count AS INT
-  SET count TO 10
+  VAR scores AS INT ARRAY SIZE 5 WITH VALUES 10 20 30 40 50
+  VAR total AS INT
 
-  SHOW "Counting down:"
-  WHILE count > 0
-    SHOW count
-    SET count TO count - 1
+  SET total TO 0
+  SET i TO 0
+
+  WHILE i < 5
+    SET total TO total + scores[i]
+    SET i TO i + 1
   DONE
 
-  SHOW "Blastoff!"
+  SHOW "Sum of array:"
+  SHOW total
 STOP

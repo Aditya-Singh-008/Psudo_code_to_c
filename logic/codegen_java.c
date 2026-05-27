@@ -15,8 +15,14 @@ static void generate_expr_java(ASTNode* expr) {
     } else if (expr->type == NODE_STR) {
         printf("%s", expr->str_val);
     } else if (expr->type == NODE_ID) {
+        if (get_type_sym(expr->str_val) == NULL) {
+            fprintf(stderr, "Warning: Undeclared variable '%s' used in expression.\n", expr->str_val);
+        }
         printf("%s", expr->str_val);
     } else if (expr->type == NODE_ARRAY_ACCESS) {
+        if (get_type_sym(expr->str_val) == NULL) {
+            fprintf(stderr, "Warning: Undeclared array '%s' used in expression.\n", expr->str_val);
+        }
         printf("%s[", expr->str_val);
         generate_expr_java(expr->left);
         printf("]");
@@ -84,12 +90,18 @@ void generate_code_java(ASTNode* node, int indent_level) {
     }
 
     else if (node->type == NODE_ASSIGN) {
+        if (get_type_sym(node->str_val) == NULL) {
+            fprintf(stderr, "Warning: Assignment to undeclared variable '%s'.\n", node->str_val);
+        }
         print_indent_java(indent_level);
         printf("%s = ", node->str_val);
         generate_expr_java(node->left);
         printf(";\n");
     }
     else if (node->type == NODE_ARRAY_ASSIGN) {
+        if (get_type_sym(node->str_val) == NULL) {
+            fprintf(stderr, "Warning: Assignment to undeclared array '%s'.\n", node->str_val);
+        }
         print_indent_java(indent_level);
         printf("%s[", node->str_val);
         generate_expr_java(node->left);
@@ -99,15 +111,24 @@ void generate_code_java(ASTNode* node, int indent_level) {
     }
     else if (node->type == NODE_PRINT) {
         print_indent_java(indent_level);
+        if (node->left->type == NODE_ID && get_type_sym(node->left->str_val) == NULL) {
+            fprintf(stderr, "Warning: SHOW used on undeclared variable '%s'.\n", node->left->str_val);
+        }
         printf("System.out.println(");
         generate_expr_java(node->left);
         printf(");\n");
     }
     else if (node->type == NODE_INPUT) {
+        if (get_type_sym(node->str_val) == NULL) {
+            fprintf(stderr, "Warning: GET used on undeclared variable '%s'.\n", node->str_val);
+        }
         print_indent_java(indent_level);
         printf("%s = scanner.nextInt();\n", node->str_val);
     }
     else if (node->type == NODE_ARRAY_INPUT) {
+        if (get_type_sym(node->str_val) == NULL) {
+            fprintf(stderr, "Warning: GET used on undeclared array '%s'.\n", node->str_val);
+        }
         print_indent_java(indent_level);
         printf("%s[", node->str_val);
         generate_expr_java(node->left);

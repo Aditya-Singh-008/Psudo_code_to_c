@@ -191,10 +191,15 @@ async function prt(e) {
     const text = await res.text();
     const result = JSON.parse(text);
 
-    // Show C output
+    // Show translated output
     document.getElementById("output").value = result.output || '';
 
-    // Show compiler warnings / errors if any
+    if (!res.ok) {
+      showWarnings(`Error: ${result.error || 'Translation failed.'}`);
+      return;
+    }
+
+    // Show compiler warnings if any
     if (result.warnings && result.warnings.length > 0) {
       showWarnings(result.warnings);
     }
@@ -206,6 +211,7 @@ async function prt(e) {
 
   } catch (err) {
     console.log("ERROR:", err);
+    showWarnings("Error: Unable to reach the translation server.");
   } finally {
     lock = false;
     showloading(false);

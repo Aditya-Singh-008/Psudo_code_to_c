@@ -1,17 +1,8 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int count;
-        count = 10;
-        System.out.println("Counting down:");
-        while ((count > 0)) {
-            System.out.println(count);
-            count = (count - 1);
-        }
-        System.out.println("Blastoff!");
-        scanner.close();
-    }
-}
+scores = [10, 20, 30, 40, 50]
+total = 0
+i = 0
+while (i < 5):
+    total = (total + scores[i])
+    i = (i + 1)
+print("Sum of array:")
+print(total)

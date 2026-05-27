@@ -184,6 +184,10 @@ run_test "ERR-06" "Edge case: empty program body (START STOP)" \
     "$TESTS_DIR/ERR_06_empty_program.pseudo" \
     0 'int main()' '' ''
 
+run_test "ERR-07" "Array initializer exceeds declared size" \
+    "$TESTS_DIR/ERR_07_array_too_many_values.pseudo" \
+    1 '' '' 'array initializer contains more values than its declared size'
+
 # ─── CATEGORY 3: INLINE EDGE CASES ───────────────────────────
 sep
 printf "${BOLD}  Category 3: Inline Edge Case Tests${RESET}\n"
